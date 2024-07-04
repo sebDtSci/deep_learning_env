@@ -37,7 +37,6 @@ class Bot:
             'RIGHT': (10, 0)
         }
         vision = {'UP': [], 'DOWN': [], 'LEFT': [], 'RIGHT': []}
-
         for direction, (dx, dy) in directions.items():
             for step in range(1, vision_range + 1):
                 new_x = self.position[0] + step * dx
@@ -49,11 +48,12 @@ class Bot:
 
                 if 0 <= new_x < window_x and 0 <= new_y < window_y:
                     # vision[direction].append([new_x, new_y])
-                    # if [new_x, new_y] in [bot.position for bot in bots if bot.position != self.position]:
-                    if [new_x, new_y] in [bot for bot in bots if bot != self.position]:
-                        # vision[direction][-1].append("bot")  # Ajouter une indication de bot
+                    # liste de Bots
+                    # if [new_x, new_y] in [bot for bot in bots if bot != self.position]:
+                    # Un seul Bot
+                    if [new_x, new_y] == bots :
                         vision[direction].append({'position': [new_x, new_y], 'type': 'bot'}) 
-                        print("Detected")
+                        # print("Detected")
                     else:
                         vision[direction].append({'position': [new_x, new_y], 'type': 'empty'})
                 else:

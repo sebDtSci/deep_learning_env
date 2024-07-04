@@ -4,6 +4,7 @@ import random
 from Danger import Danger
 from Goal import Goal
 from Friend import Friend
+from Player import Player
 
 window_x = 720
 window_y = 480
@@ -19,7 +20,9 @@ pygame.display.set_caption('Learning Environment')
 game_window = pygame.display.set_mode((window_x, window_y))
 fps = pygame.time.Clock()
 
-bot_position = [100, 50]
+# bot_position = [100, 50]
+player = Player()
+player_position = player.position
 
 goal = Goal()
 goal_position = goal.goal_position
@@ -73,30 +76,16 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-    keys = pygame.key.get_pressed()
-    new_position_bot = bot_position[:]
-    if keys[pygame.K_LEFT] and new_position_bot[0] > 0:
-        new_position_bot[0] -= 10
-    if keys[pygame.K_RIGHT] and new_position_bot[0] < window_x - 10:
-        new_position_bot[0] += 10
-    if keys[pygame.K_UP] and new_position_bot[1] > 0:
-        new_position_bot[1] -= 10
-    if keys[pygame.K_DOWN] and new_position_bot[1] < window_y - 10:
-        new_position_bot[1] += 10
+    player_position = player.move(wall_segments, goal_position)
+    player.god_view(wall_segments, goal_position)
     
-   
-    if new_position_bot not in [pos for segment in wall_segments for pos in segment]:
-        bot_position = new_position_bot
     
     danger_position = danger.move(wall_segments, friend_position)
     friend_position = friend.random_move(wall_segments, danger_position)
     
-    # vision = danger.get_vision(wall_segments, friend_position)
-    # print("Vision:", vision) 
-    
     game_window.fill(black)
-    pygame.draw.rect(game_window, white, [bot_position[0], bot_position[1], 10, 10])
+    pygame.draw.rect(game_window, white, [player_position[0], player_position[1], 10, 10])
+    # pygame.draw.rect(game_window, white, [bot_position[0], bot_position[1], 10, 10])
     pygame.draw.rect(game_window, green, [goal_position[0], goal_position[1], 10, 10])
     pygame.draw.rect(game_window, red, [danger_position[0], danger_position[1], 10, 10])
     pygame.draw.rect(game_window, white, [friend_position[0], friend_position[1], 10, 10])
@@ -104,13 +93,16 @@ while True:
         for wall in segment:
             pygame.draw.rect(game_window, blue, [wall[0], wall[1], 10, 10])
     
-    if bot_position[0] == goal_position[0] and bot_position[1] == goal_position[1]:
+    # if bot_position[0] == goal_position[0] and bot_position[1] == goal_position[1]:
+    if player_position[0] == goal_position[0] and player_position[1] == goal_position[1]:
         score_friend += 1
         score_danger -= 1
         goal_position_spawn = False
         danger = Danger(False)
     
-    if bot_position[0] == danger_position[0] and bot_position[1] == danger_position[1]:
+    if player_position[0] == danger_position[0] and player_position[1] == danger_position[1]:
+    # if bot_position[0] == danger_position[0] and bot_position[1] == danger_position[1]:
+
         # game_over()
         score_friend -= 1
         score_danger += 1
