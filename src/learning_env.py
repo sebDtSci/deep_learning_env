@@ -4,7 +4,7 @@ import random
 from Danger import Danger
 from Goal import Goal
 from Friend import Friend
-from Player import Player
+from src.Player import Player
 
 window_x = 720
 window_y = 480

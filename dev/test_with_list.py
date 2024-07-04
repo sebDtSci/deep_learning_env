@@ -3,8 +3,8 @@ import time
 import os
 import random
 from dotenv import load_dotenv
-from Player import Player
-from Bot import Bot
+from src.Player import Player
+from src.Bot import Bot
 
 
 # Charger les variables d'environnement depuis le fichier .env

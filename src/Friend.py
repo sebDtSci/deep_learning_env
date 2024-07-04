@@ -1,4 +1,4 @@
-from Bot import Bot
+from src.Bot import Bot
 
 class Friend(Bot):
     def __init__(self, friend_position_spawn:str =True ):

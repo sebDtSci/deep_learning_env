@@ -1,4 +1,4 @@
-from Bot import Bot
+from src.Bot import Bot
 import pygame
 from dotenv import load_dotenv
 import os
